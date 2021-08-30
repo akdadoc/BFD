@@ -31,7 +31,7 @@ contract bigFDicks is ERC721URIStorage {
         _safeMint(msg.sender, dickId);
 
         string memory _dickId_ = uintToString(dickId);
-        string memory _uri_ = "http://dicks.citytrees.io/";
+        string memory _uri_ = "http://cityroots.s3-website.us-east-2.amazonaws.com/bfd/";
 
         _setTokenURI(
             dickId,
@@ -60,5 +60,17 @@ contract bigFDicks is ERC721URIStorage {
         }
         string memory str = string(s); // memory isn't implicitly convertible to storage
         return str;
+    }
+
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual override {
+        super._beforeTokenTransfer(from, to, amount);
+
+        if (address(to) != address(0) && address(from) != address(0)) {
+            dickOwners[to] = true; // Update dick owners with new owner on transfer
+        }
     }
 }
