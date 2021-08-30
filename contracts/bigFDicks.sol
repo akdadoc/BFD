@@ -22,7 +22,12 @@ contract bigFDicks is ERC721URIStorage {
             dickOwners[msg.sender] == false,
             "Unauthorize Mint: Only 1 allowed per wallet"
         ); // Check if user address already owns asset.
-        require(minted <= 999, "Unauthorized Mint: Maxium amount exceeded");
+
+        if (minted <= 1000) {
+            minted++;
+        }
+
+        require(minted <= 1000, "Unauthorized Mint: Maxium amount exceeded");
 
         _dickIds.increment();
 
@@ -31,7 +36,8 @@ contract bigFDicks is ERC721URIStorage {
         _safeMint(msg.sender, dickId);
 
         string memory _dickId_ = uintToString(dickId);
-        string memory _uri_ = "http://cityroots.s3-website.us-east-2.amazonaws.com/bfd/";
+        string
+            memory _uri_ = "http://cityroots.s3-website.us-east-2.amazonaws.com/bfd/meta/";
 
         _setTokenURI(
             dickId,
@@ -39,10 +45,6 @@ contract bigFDicks is ERC721URIStorage {
         ); //concentate strings
 
         dickOwners[msg.sender] = true;
-
-        if (minted < 1000) {
-            minted++;
-        }
     }
 
     function uintToString(uint256 v) internal pure returns (string memory) {
