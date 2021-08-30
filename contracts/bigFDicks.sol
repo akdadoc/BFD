@@ -22,7 +22,7 @@ contract bigFDicks is ERC721URIStorage {
             dickOwners[msg.sender] == false,
             "Unauthorize Mint: Only 1 allowed per wallet"
         ); // Check if user address already owns asset.
-        require(minted <= 1000, "Unauthorized Mint: Maxium amount exceeded");
+        require(minted <= 999, "Unauthorized Mint: Maxium amount exceeded");
 
         _dickIds.increment();
 
@@ -40,7 +40,7 @@ contract bigFDicks is ERC721URIStorage {
 
         dickOwners[msg.sender] = true;
 
-        if (minted <= 1000) {
+        if (minted < 1000) {
             minted++;
         }
     }
