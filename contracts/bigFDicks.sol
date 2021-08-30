@@ -11,7 +11,7 @@ contract bigFDicks is ERC721URIStorage {
     using Counters for Counters.Counter;
 
     mapping(address => bool) private dickOwners;
-    uint256 public minted = 998; // The amount of dicks that has been minted
+    uint256 public minted = 0; // The amount of dicks that has been minted
 
     Counters.Counter private _dickIds;
 
