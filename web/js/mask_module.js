@@ -5,7 +5,7 @@
 
 //  MetaMask Provider
 const provider = await detectEthereumProvider();
-const server = "http://10.0.0.64"
+const server = "http://10.0.0.64";
 const port = 9500;
 const forwarderOrigin = server + ":" + port + "/bfd";
 
@@ -46,8 +46,8 @@ const initialize = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      // Change button Text!
-      onboardButton.innerText = "Connected";
+      // Change button Text and onclick event!
+      onboardButton.innerText = "Now Connected";
       accountDiv.innerText = "Connected Account: " + currentAccount;
     }
   };
@@ -98,8 +98,10 @@ const initialize = () => {
     if (accounts.length === 0) {
       // MetaMask is locked or the user has not connected any accounts
       console.log("Please connect to MetaMask.");
+      MetaMaskClientCheck();
     } else if (accounts[0] !== currentAccount) {
       currentAccount = accounts[0];
+      console.log("accounts changed to: " + currentAccount);
     }
   }
 
@@ -116,6 +118,7 @@ const initialize = () => {
     } else {
       //If it is installed we change our button text
       onboardButton.innerText = "Connect Wallet";
+      accountDiv.innerText = "No Account Connected";
 
       //When the button is clicked we call this function to connect the users MetaMask Wallet
       onboardButton.onclick = onClickConnect;
