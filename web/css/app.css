@@ -1,0 +1,98 @@
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #fff;
+  text-shadow: none; /* Prevent inheritance from `body` */
+  background-color: #4285f4;
+  border: 0.05rem solid #333;
+  margin: 0.5em;
+}
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #333;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin-2 {
+  max-width: 600px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox,
+.form-signin-2 .form-signin-heading,
+.form-signin-2 .checkbox {
+  margin-bottom: 20px;
+  color: #fff;
+}
+.form-signin .checkbox,
+.form-signin-2 .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control,
+.form-signin-2 .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus,
+.form-signin-2 .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"],
+.form-signin-2 input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"],
+.form-signin-2 input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signin-text {
+  color: #fff;
+}
+.form-error p {
+  color: red;
+  text-align: center;
+  margin: 5px;
+}
+
+.masthead-brand,
+.masthead-brand a{
+  margin-bottom: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+.btn2 {
+  align-self: flex-end;
+  margin-left: 5rem;
+  float: right;
+}
+.appcard {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+.account-text {
+  max-width: 500px;
+  margin-bottom: 20px;
+  color: #fff;
+  float: left;
+}
+.row{
+  float:left;
+  margin-top:30px;
+}
