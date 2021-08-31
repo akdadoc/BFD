@@ -5,8 +5,9 @@
 
 //  MetaMask Provider
 const provider = await detectEthereumProvider();
+const server = "http://10.0.0.64"
 const port = 9500;
-const forwarderOrigin = "http://10.0.0.64:" + port + "/bfd";
+const forwarderOrigin = server + ":" + port + "/bfd";
 
 if (provider) {
   console.log("MetaMask is  Installed!");
