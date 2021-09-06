@@ -5,9 +5,16 @@
 
 //  MetaMask Provider
 const provider = await detectEthereumProvider();
-const server = "http://10.0.0.64";
-const port = 9500;
+const server = "http://bfd.samaritannet.com";
+const port = 8080;
 const forwarderOrigin = server + ":" + port + "/bfd";
+const web3 = new Web3(provider);
+
+//Create Contract Instance
+import { bfdAbi } from "./bfdAbi.js";
+const bfdAddress = "0x041d5F549bB9d3b75f703be8e698Eee3cDF04E0A";
+
+const contract = new web3.eth.Contract(bfdAbi, bfdAddress);
 
 if (provider) {
   console.log("MetaMask is  Installed!");
@@ -17,8 +24,15 @@ if (provider) {
 
 const initialize = () => {
   //  basic button functions
+  const mintButton = document.getElementById("mintButton");
   const onboardButton = document.getElementById("connectButton");
-  const accountDiv = document.getElementById("account");
+  const accountUser = document.getElementById("user");
+  const balanceUser = document.getElementById("balance");
+  const tokenIdUser = document.getElementById("tokenid");
+  const tokenUriUser = document.getElementById("tokenuri");
+  const respondOut = document.getElementById("response");
+  const urlImg = document.getElementById("asset");
+  const totalMinited = document.getElementById("total-minted");
 
   //We create a new MetaMask onboarding object to use in our app
   const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
@@ -28,6 +42,11 @@ const initialize = () => {
     //Have to check the ethereum binding on the window object to see if it's installed
     const { ethereum } = window;
     return Boolean(ethereum && ethereum.isMetaMask);
+  };
+
+  // Start the Minting of a NFT
+  const onMint = () => {
+    MintDick();
   };
 
   //This will start the onboarding proccess
@@ -46,10 +65,16 @@ const initialize = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      // Change button Text and onclick event!
-      onboardButton.innerText = "Now Connected";
-      accountDiv.innerText = "Connected Account: " + currentAccount;
+      web3.eth.getChainId().then((chainId) => {
+        if (chainId == 20018) {
+          respondOut.innerText =
+            "You are now Connected to The Samaritan Block Chain";
+        } else {
+          respondOut.innerText = "You are connected to chainId: " + chainId;
+        }
+      });
     }
+    mintButton.disabled = false;
   };
 
   /**********************************************************/
@@ -102,7 +127,82 @@ const initialize = () => {
     } else if (accounts[0] !== currentAccount) {
       currentAccount = accounts[0];
       console.log("accounts changed to: " + currentAccount);
+      accountUser.innerText = currentAccount;
+      onboardButton.innerText = "Now Connected";
+      balanceOfOwner();
     }
+  }
+
+  function getJson(url) {
+    $.getJSON(url, function(result) {
+      urlImg.src = result.image;
+    });
+  }
+  /***********************************************************/
+  /* Handle contract interactions                             */
+  /***********************************************************/
+
+  async function balanceOfOwner() {
+    contract.methods
+      .balanceOf(currentAccount)
+      .call({ from: currentAccount })
+      .then((owned) => {
+        console.log(owned);
+        if (owned !== "0") {
+          mintButton.disabled = true;
+          OwnerAssetId();
+        }
+        balanceUser.innerText = owned;
+        Minted();
+      });
+  }
+  async function Minted() {
+    contract.methods
+      .minted()
+      .call({ from: currentAccount })
+      .then((total) => {
+        console.log(total);
+        totalMinited.innerText = "Total minted : " + total + "|2000";
+      });
+  }
+  async function OwnerAssetId() {
+    contract.methods
+      .getOwnerTokenId(currentAccount)
+      .call({ from: currentAccount })
+      .then((id) => {
+        tokenIdUser.innerText = id;
+        if (id !== "0") {
+          AssetUri(id);
+        }
+      });
+  }
+  async function AssetUri(_id) {
+    contract.methods
+      .tokenURI(_id)
+      .call({ from: currentAccount })
+      .then((url) => {
+        tokenUriUser.innerText = url;
+        getJson(url);
+      });
+  }
+
+  async function MintDick() {
+    await contract.methods
+      .mintDick()
+      .send({ from: currentAccount, gas: 3000000 }, (error) => {
+        alert("Minting A Dick...");
+      })
+      .on("confirmation", (confirmations, receipt) => {
+        console.log("CONFIRMATION");
+        console.log(confirmations);
+        console.log(receipt);
+      })
+      .on("receipt", (receipt) => {
+        console.log(receipt);
+      })
+      .on("error", (error) => {
+        alert(JSON.stringify(error));
+      });
   }
 
   const MetaMaskClientCheck = () => {
@@ -118,10 +218,12 @@ const initialize = () => {
     } else {
       //If it is installed we change our button text
       onboardButton.innerText = "Connect Wallet";
-      accountDiv.innerText = "No Account Connected";
+      accountUser.innerText = "No Account Connected";
 
       //When the button is clicked we call this function to connect the users MetaMask Wallet
       onboardButton.onclick = onClickConnect;
+      mintButton.onclick = onMint;
+      mintButton.disabled = true;
     }
   };
   MetaMaskClientCheck();

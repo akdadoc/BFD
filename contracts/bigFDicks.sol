@@ -1,25 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/// @author akdadoc 2020 CityTreed Project
-/// @title City Trees: Big Fucking Dicks
+/// @author akdadoc 2020 Sample Proof of Concept Project
+/// @title BFDS: Big Fucking Dicks
 
-import "../@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "../@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract bigFDicks is ERC721URIStorage {
+contract bigFDicks is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
-    mapping(address => bool) private dickOwners;
+    mapping(address => bool) private hasMinted;
+    mapping(address => uint256) private dickOwners;
+
     uint256 public minted = 0; // The amount of dicks that has been minted
 
     Counters.Counter private _dickIds;
 
-    constructor() ERC721("Big Fucking Dicks", "BFD") {}
+    constructor() ERC721("BFDS", "bfds") {}
 
     function mintDick() external {
         require(
-            dickOwners[msg.sender] == false,
+            hasMinted[msg.sender] == false,
             "Unauthorize Mint: Only 1 allowed per wallet"
         ); // Check if user address already owns asset.
 
@@ -35,16 +38,23 @@ contract bigFDicks is ERC721URIStorage {
 
         _safeMint(msg.sender, dickId);
 
+        dickOwners[msg.sender] = dickId;
+
         string memory _dickId_ = uintToString(dickId);
         string
-            memory _uri_ = "http://cityroots.s3-website.us-east-2.amazonaws.com/bfd/meta/";
+            memory _uri_ = "http://bfd.s3-website-us-east-1.amazonaws.com/meta/";
 
         _setTokenURI(
             dickId,
             string(abi.encodePacked(_uri_, _dickId_, ".json"))
         ); //concentate strings
 
-        dickOwners[msg.sender] = true;
+        hasMinted[msg.sender] = true;
+    }
+
+    function getOwnerTokenId(address owner) external view returns (uint256) {
+        uint256 tokenId = dickOwners[owner];
+        return tokenId;
     }
 
     function uintToString(uint256 v) internal pure returns (string memory) {
@@ -72,7 +82,11 @@ contract bigFDicks is ERC721URIStorage {
         super._beforeTokenTransfer(from, to, amount);
 
         if (address(to) != address(0) && address(from) != address(0)) {
-            dickOwners[to] = true; // Update dick owners with new owner on transfer
+            hasMinted[to] = true; // Update dick owners with new owner on transfer
         }
+    }
+
+    function contractURI() public pure returns (string memory) {
+        return "https://bfd.s3.amazonaws.com/meta/collection.json";
     }
 }

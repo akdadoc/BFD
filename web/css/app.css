@@ -70,7 +70,7 @@ body {
 }
 
 .masthead-brand,
-.masthead-brand a{
+.masthead-brand a {
   margin-bottom: 5px;
   color: #fff;
   text-decoration: none;
@@ -80,19 +80,55 @@ body {
   margin-left: 5rem;
   float: right;
 }
+.btn3 {
+  margin-left: 1em;
+}
 .appcard {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
 }
-.account-text {
-  max-width: 500px;
-  margin-bottom: 20px;
-  color: #fff;
-  float: left;
+.row {
+  margin: 0.5em;
+  padding: 0.5em;
 }
-.row{
-  float:left;
-  margin-top:30px;
+.col {
+  padding: 0.1em;
+  border: 1px solid;
+}
+.col-t {
+  color: rgb(146, 135, 135);
+  padding: 0.5em;
+}
+.col-h {
+  color: #fff;
+  text-align: left;
+  font-weight: bold;
+  font-size: large;
+  padding: 0.5em;
+}
+
+.container-content {
+  margin-top: 5em;
+}
+
+.res {
+  background-color: black;
+  color: white;
+  block-size: auto;
+  margin-top: 5em;
+  font-size: larger;
+}
+.img-thumbnail {
+  border: 1px solid rgb(122, 120, 120);
+  border-radius: 4px;
+  padding: 5px;
+  width: 250px;
+  margin: auto;
+  display: block;
+}
+.tm{
+  float: right;
+  color: rgb(125, 125, 126);
 }
