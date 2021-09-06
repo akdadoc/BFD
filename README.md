@@ -1,4 +1,4 @@
-# cityTrees-Dicks
+# BFDS
 *NFT Project*
 
 Basic ERC721 Implementation with sample user Interface for interacting with smart contract 
