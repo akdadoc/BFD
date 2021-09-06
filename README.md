@@ -1,5 +1,7 @@
-# cityTrees-Dicks
+# BFDS
 *NFT Project*
+
+Basic ERC721 Implementation with sample user Interface for interacting with smart contract 
 
 **Limits**
 1. Maxium mint amount is 1000 assets  :loudspeaker:
